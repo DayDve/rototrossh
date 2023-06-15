@@ -19,5 +19,5 @@ grep -q 'cloud.rotoro.corp' /etc/hosts && {
         echo $h | awk -F ':' '{system("/usr/bin/sshpass -p "$3" ssh-copy-id -o \"StrictHostKeyChecking no\" "$2"@"$1" >/dev/null 2>&1 && echo "$1": OK")}'
     done
 } || { 
-    echo No rotoro.cloud host!!!
+    echo "No rotoro.cloud host!!!"
 }
