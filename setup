@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+grep -q 'cloud.rotoro.corp' /etc/hosts && {
+    install -m 644 /dev/null ~/.ssh/config
+    for h in \
+        controller:moon:selena \
+        db01:saturn:cronos \
+        lb01:mars:ares \
+        app01:mercury:hermes \
+        app02:venus:aphrodite \
+        app03:earth:gaia \
+        str01:jupiter:zeus \
+        bu01:neptune:poseidon \
+        cicd01:uranus:celum \
+        mail01:pluto:hades \
+        mon01:ceres:demeter
+    do
+        echo $h | awk -F ':' '{print "Host "$1"\n    HostName "$1"\n    User "$2"\n"}' >> ~/.ssh/config
+        echo $h | awk -F ':' '{system("/usr/bin/sshpass -p "$3" ssh-copy-id -o \"StrictHostKeyChecking no\" "$2"@"$1)}'
+    done
+}
